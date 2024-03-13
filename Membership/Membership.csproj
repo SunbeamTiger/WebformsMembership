@@ -67,6 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DATABASE_SCRIPTS\CREATE_SCEMA_AND_DATA.sql" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Members.aspx" />
@@ -90,6 +91,8 @@
     <Compile Include="Members.aspx.designer.cs">
       <DependentUpon>Members.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\db.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -103,7 +106,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

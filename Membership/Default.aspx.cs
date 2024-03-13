@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data.SqlClient;
+using Membership.Models;
+using System.ComponentModel;
 
 namespace Membership
 {
@@ -17,12 +19,23 @@ namespace Membership
 
         protected void btnLogin_Click(object sender, EventArgs e)
         {
-            string creds = "Server=10.48.38.5; Database=Members;UID=ITUser;PWD=CentraliaIT;";
-            SqlConnection conn = new SqlConnection(creds);
+           
+            SqlConnection conn = new SqlConnection(db.getconnection());
             SqlCommand cmd = new SqlCommand("LogIn", conn);
             cmd.CommandType= System.Data.CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Username", txtUsername.Text);
-            cmd.Parameters.AddWithValue("@Password", txtPassword.Text); 
+            cmd.Parameters.AddWithValue("@Password", txtPassword.Text);
+            SqlParameter visits = new SqlParameter();
+            visits.ParameterName = "@Visits";
+            visits.DbType = System.Data.DbType.Int32;
+            visits.Direction = System.Data.ParameterDirection.Output;
+            
+            SqlParameter LastVisit = new SqlParameter();
+            LastVisit.ParameterName = "@LastVisit";
+            LastVisit.DbType = System.Data.DbType.Date;
+            LastVisit.Direction = System.Data.ParameterDirection.Output;
+            cmd.Parameters.Add(LastVisit);
+            cmd.Parameters.Add(visits);
             conn.Open();
             SqlDataReader dr = cmd.ExecuteReader();
 
@@ -33,6 +46,10 @@ namespace Membership
                 string First = dr[1].ToString();
                 Session["Name"] = First + " " + Last;   
                 conn.Close();
+
+                int Visitcount = (int) visits.Value;
+                DateTime LastVisited = (DateTime)LastVisit.Value;
+
                 Response.Redirect("members.aspx");
             }
             else
