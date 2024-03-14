@@ -25,15 +25,19 @@ namespace Membership
             cmd.CommandType= System.Data.CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Username", txtUsername.Text);
             cmd.Parameters.AddWithValue("@Password", txtPassword.Text);
+            
+            //output param 1
             SqlParameter visits = new SqlParameter();
             visits.ParameterName = "@Visits";
             visits.DbType = System.Data.DbType.Int32;
             visits.Direction = System.Data.ParameterDirection.Output;
             
+            // output param 2
             SqlParameter LastVisit = new SqlParameter();
             LastVisit.ParameterName = "@LastVisit";
             LastVisit.DbType = System.Data.DbType.Date;
             LastVisit.Direction = System.Data.ParameterDirection.Output;
+            // add both to the colleciton
             cmd.Parameters.Add(LastVisit);
             cmd.Parameters.Add(visits);
             conn.Open();
